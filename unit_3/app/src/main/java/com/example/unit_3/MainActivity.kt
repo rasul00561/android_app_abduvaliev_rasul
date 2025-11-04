@@ -3,6 +3,7 @@ package com.example.unit3
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -21,13 +22,28 @@ class MainActivity : ComponentActivity() {
                 ) {
                     var selectedProduct by remember { mutableStateOf<Product?>(null) }
 
-                    if (selectedProduct == null) {
-                        ProductScreen(onProductClick = { selectedProduct = it })
-                    } else {
-                        ProductDetailScreen(
-                            product = selectedProduct!!,
-                            onBack = { selectedProduct = null }
-                        )
+                    ResponsiveLayout { isWide ->
+                        if (isWide) {
+                            Row {
+                                ProductScreen(onProductClick = { selectedProduct = it })
+
+                                selectedProduct?.let {
+                                    ProductDetailScreen(
+                                        product = it,
+                                        onBack = { selectedProduct = null }
+                                    )
+                                }
+                            }
+                        } else {
+                            if (selectedProduct == null) {
+                                ProductScreen(onProductClick = { selectedProduct = it })
+                            } else {
+                                ProductDetailScreen(
+                                    product = selectedProduct!!,
+                                    onBack = { selectedProduct = null }
+                                )
+                            }
+                        }
                     }
                 }
             }
