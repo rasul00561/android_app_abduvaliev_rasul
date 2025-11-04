@@ -32,9 +32,10 @@ fun ProductDetailScreen(product: Product, onBack: () -> Unit) {
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(product.price, style = MaterialTheme.typography.titleLarge)
+            Text("${product.price} $", style = MaterialTheme.typography.titleLarge)
             Spacer(modifier = Modifier.height(16.dp))
             Text(product.description, style = MaterialTheme.typography.bodyMedium)
+
         }
     }
 }

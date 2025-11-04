@@ -5,42 +5,31 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavType
-import androidx.navigation.compose.*
+import androidx.compose.ui.Modifier
+import androidx.compose.foundation.layout.fillMaxSize
 import com.example.unit3.ui.theme.Unit3Theme
-import androidx.compose.runtime.collectAsState
 
 class MainActivity : ComponentActivity() {
-    @ExperimentalMaterial3Api
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             Unit3Theme {
-                AppNavigation()
-            }
-        }
-    }
-}
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    var selectedProduct by remember { mutableStateOf<Product?>(null) }
 
-@ExperimentalMaterial3Api
-@Composable
-fun AppNavigation(viewModel: ProductViewModel = viewModel()) {
-    val navController = rememberNavController()
-
-    NavHost(navController = navController, startDestination = "list") {
-        composable("list") {
-            ProductListScreen(
-                products = viewModel.products.collectAsState().value,
-                onProductClick = { product ->
-                    viewModel.selectProduct(product)
-                    navController.navigate("detail")
+                    if (selectedProduct == null) {
+                        ProductScreen(onProductClick = { selectedProduct = it })
+                    } else {
+                        ProductDetailScreen(
+                            product = selectedProduct!!,
+                            onBack = { selectedProduct = null }
+                        )
+                    }
                 }
-            )
-        }
-        composable("detail") {
-            viewModel.selectedProduct.collectAsState().value?.let {
-                ProductDetailScreen(it, onBack = { navController.popBackStack() })
             }
         }
     }
