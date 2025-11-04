@@ -1,5 +1,6 @@
-package com.example.unit3
+package network
 
+import models.Product
 import retrofit2.http.GET
 
 interface ProductApi {

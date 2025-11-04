@@ -11,6 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import data.LocalProductViewModel
+import data.LocalProductViewModelFactory
+import models.Product
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
